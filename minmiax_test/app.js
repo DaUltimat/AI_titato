@@ -1,18 +1,18 @@
-const canvas = document.querySelector("#playing_board");
+const canvas = document.querySelector("#canvas");
 const c = canvas.getContext("2d");
 
-canvas.width = 360;
-canvas.height = 360;
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
-let game = new Game();
+const main_tree = new Node(0);
+const SPHERE_SIZE = 100;
+const ZOOM = 1;
 
-canvas.addEventListener("click", (e) => {
-    let position = { x: e.offsetX, y: e.offsetY };
-    let converted = { x: Math.floor(position.x / 120), y: Math.floor(position.y / 120) };
-    let tile = converted.x + converted.y * 3;
-
-    game.register_move(tile);
-});
+main_tree.add(2);
+main_tree.add(4);
+main_tree.nodes[0].add(5);
+main_tree.nodes[0].add(7);
+main_tree.nodes[0].nodes[1].add(6);
 
 function visualizeTree(node, prefix = "", isLast = true) {
     const connector = node.parent ? (isLast ? "└── " : "├── ") : "";
@@ -28,3 +28,5 @@ function visualizeTree(node, prefix = "", isLast = true) {
         visualizeTree(child, newPrefix, last);
     });
 }
+
+visualizeTree(main_tree);
